@@ -1814,7 +1814,7 @@
                         </div>
                     `
                 },
-                                changelog: {
+                                        changelog: {
                     title: "更新日志",
                     content: `
                         <div class="sidebar-content-section">
@@ -1851,7 +1851,8 @@
                             </div>
                         </div>
                     `
-                }
+                }  // ← 确保这里有闭合的大括号
+            };  // ← 添加这行：闭合 sectionData 对象
 
             // 打开侧边栏并加载对应游戏内容
             openFeaturesBtns.forEach(btn => {
