@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZMC_Kernel - 内核级安全解决方案</title>
+    <style>
+        /* 全局样式：深色科技风 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* 科技感网格背景 */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -1;
+        }
+        /* 容器 */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px 20px;
+            z-index: 1;
+        }
+        /* Logo/标题 */
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+        /* 副标题 */
+        .subtitle {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: #cbd5e1;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+        /* 数据展示区 */
+        .stats {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin: 60px 0;
+        }
+        .stat-item {
+            padding: 25px;
+            min-width: 180px;
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: #6366f1;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        /* 核心功能/描述区 */
+        .description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #cbd5e1;
+            max-width: 800px;
+            margin: 50px auto 60px;
+            padding: 0 20px;
+        }
+        /* 主按钮 */
+        .btn-primary {
+            display: inline-block;
+            padding: 18px 50px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.6);
+        }
+        /* 页脚 */
+        .footer {
+            margin-top: 80px;
+            color: #64748b;
+            font-size: 0.9rem;
+            padding: 20px;
+        }
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .logo { font-size: 2.5rem; }
+            .subtitle { font-size: 1.4rem; }
+            .stats { gap: 20px; }
+            .stat-item { min-width: 140px; padding: 20px; }
+            .stat-number { font-size: 2.2rem; }
+            .description { font-size: 1.1rem; }
+            .btn-primary { padding: 16px 40px; font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="logo">ZMC_Kernel</h1>
+        <p class="subtitle">内核级安全 · 极速连接</p>
+
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-number">99.99%</span>
+                <span class="stat-label">服务可用性</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">&lt; 1ms</span>
+                <span class="stat-label">内核延迟</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">7x24h</span>
+                <span class="stat-label">智能防护</span>
+            </div>
+        </div>
+
+        <p class="description">
+            ZMC_Kernel 是一款基于底层内核技术构建的高性能安全工具。<br>
+            通过极致的优化与深度定制，提供近乎零延迟的网络体验与无与伦比的稳定性，<br>
+            专为追求极限性能与可靠性的专业人士打造。
+        </p>
+
+        <!-- 主购买按钮：请务必替换下面的链接 -->
+        <a href="[http://luoye.chyidc.cn/shop/XYSY]" class="btn-primary" target="_blank">
+            立即购买 →
+        </a>
+
+        <div class="footer">
+            © 2026 ZMC_Kernel. 保留所有权利。
+        </div>
+    </div>
+</body>
+</html>
