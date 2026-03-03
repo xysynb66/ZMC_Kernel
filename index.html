@@ -46,53 +46,190 @@
             font-size: 16px;
         }
 
-        /* 加载动画 */
+        /* 增强版加载动画 */
         #loader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--darker-bg);
+            background: linear-gradient(135deg, var(--darker-bg) 0%, #1a1a2e 50%, #16213e 100%);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
         }
+        
         .loader-content {
             text-align: center;
+            max-width: 90%;
         }
+        
         .loader-logo {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 900;
             background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite ease-in-out;
+            margin-bottom: 30px;
+            text-shadow: 0 0 30px rgba(122, 95, 255, 0.5);
+            letter-spacing: 2px;
         }
+        
+        .loader-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        
+        .loader-bar-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 40px;
+        }
+        
+        .loader-bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
         .loader-bar {
-            width: 300px;
-            height: 4px;
+            width: 100%;
+            height: 8px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
+            border-radius: 4px;
             overflow: hidden;
-            margin: 0 auto;
+            position: relative;
         }
+        
         .loader-progress {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 2px;
-            animation: loadProgress 1.5s ease-in-out forwards;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            position: relative;
         }
-        @keyframes loadProgress {
-            0% { width: 0%; }
-            100% { width: 100%; }
+        
+        .loader-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.4), 
+                transparent);
+            animation: shimmer 2s infinite;
         }
-
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* 进入官网按钮 - 初始隐藏 */
+        .enter-btn {
+            display: none;
+            margin-top: 40px;
+            padding: 20px 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: var(--darker-bg);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(122, 95, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            transition: left 0.7s;
+        }
+        
+        .enter-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(122, 95, 255, 0.8);
+        }
+        
+        .enter-btn:hover::before {
+            left: 100%;
+        }
+        
+        .enter-btn i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .enter-btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* 加载完成后的按钮动画 */
+        .enter-btn.show {
+            display: inline-block;
+            animation: pulse 2s infinite, fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 10px 30px rgba(122, 95, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 10px 40px rgba(122, 95, 255, 0.8), 0 0 30px rgba(122, 95, 255, 0.6);
+            }
+        }
+        
+        /* 主内容容器 - 初始隐藏 */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+        
+        .container.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
         /* 粒子背景容器 */
         #particles-js {
             position: fixed;
@@ -101,21 +238,6 @@
             top: 0;
             left: 0;
             z-index: -1;
-        }
-
-        /* 主容器 */
-        .container {
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 15px;
-            position: relative;
-            z-index: 1;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s 0.5s ease-out forwards;
-        }
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
         }
 
         /* 头部导航 */
@@ -1046,9 +1168,21 @@
     <div id="loader">
         <div class="loader-content">
             <div class="loader-logo">ZMC_Kernel</div>
-            <div class="loader-bar">
-                <div class="loader-progress"></div>
+            <div class="loader-subtitle">内核级游戏安全解决方案</div>
+            
+            <div class="loader-bar-container">
+                <div class="loader-bar-label">
+                    <span>正在初始化...</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="loader-bar">
+                    <div class="loader-progress" id="loaderProgress"></div>
+                </div>
             </div>
+            
+            <button class="enter-btn" id="enterSiteBtn">
+                进入官网 <i class="fas fa-arrow-right"></i>
+            </button>
         </div>
     </div>
     
@@ -1076,7 +1210,8 @@
         </button>
     </div>
     
-    <div class="container">
+    <!-- 主内容区域 - 初始隐藏 -->
+    <div class="container" id="mainContainer">
         <!-- 头部导航 -->
         <header class="header">
             <div class="logo-container">
@@ -1300,53 +1435,115 @@
     <!-- 粒子背景脚本 -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // 等待页面加载完成后，移除加载动画
-        window.addEventListener('load', function() {
+        // 页面加载逻辑
+        document.addEventListener('DOMContentLoaded', function() {
             const loader = document.getElementById('loader');
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
-            }, 300); // 动画结束后隐藏
+            const loaderProgress = document.getElementById('loaderProgress');
+            const progressPercent = document.getElementById('progressPercent');
+            const enterSiteBtn = document.getElementById('enterSiteBtn');
+            const mainContainer = document.getElementById('mainContainer');
+            
+            // 模拟加载进度
+            let progress = 0;
+            const totalLoadTime = 3000; // 总加载时间3秒
+            const intervalTime = 30; // 更新间隔
+            const steps = totalLoadTime / intervalTime;
+            const increment = 100 / steps;
+            
+            const progressInterval = setInterval(() => {
+                progress += increment;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(progressInterval);
+                    
+                    // 进度条完成后，显示进入按钮
+                    setTimeout(() => {
+                        enterSiteBtn.classList.add('show');
+                        // 更新按钮文本
+                        enterSiteBtn.innerHTML = `进入官网 <i class="fas fa-arrow-right"></i>`;
+                        
+                        // 点击按钮进入网站
+                        enterSiteBtn.addEventListener('click', function() {
+                            // 隐藏加载页面
+                            loader.style.opacity = '0';
+                            loader.style.visibility = 'hidden';
+                            
+                            // 显示主内容
+                            setTimeout(() => {
+                                mainContainer.classList.add('show');
+                                mainContainer.style.opacity = '1';
+                                mainContainer.style.visibility = 'visible';
+                                
+                                // 初始化粒子背景
+                                initParticles();
+                            }, 300);
+                        });
+                    }, 500);
+                }
+                
+                // 更新进度条和百分比
+                loaderProgress.style.width = `${progress}%`;
+                progressPercent.textContent = `${Math.round(progress)}%`;
+                
+            }, intervalTime);
+            
+            // 初始化粒子背景函数
+            function initParticles() {
+                if (typeof particlesJS !== 'undefined') {
+                    particlesJS("particles-js", {
+                        particles: {
+                            number: { value: 80, density: { enable: true, value_area: 1000 } },
+                            color: { value: ["#7a5fff", "#3cf4ff", "#ff00ff"] },
+                            shape: { type: "circle" },
+                            opacity: { value: 0.6, random: true },
+                            size: { value: 4, random: { enable: true, minimumValue: 2 } },
+                            line_linked: {
+                                enable: true,
+                                distance: 150,
+                                color: "#7a5fff",
+                                opacity: 0.3,
+                                width: 1.5
+                            },
+                            move: {
+                                enable: true,
+                                speed: 2,
+                                direction: "none",
+                                random: true,
+                                straight: false,
+                                out_mode: "out",
+                                bounce: false
+                            }
+                        },
+                        interactivity: {
+                            detect_on: "canvas",
+                            events: {
+                                onhover: { enable: true, mode: "repulse" },
+                                onclick: { enable: true, mode: "push" },
+                                resize: true
+                            }
+                        },
+                        retina_detect: true
+                    });
+                } else {
+                    // 如果粒子库加载失败，使用纯CSS背景
+                    console.log('粒子库加载失败，使用纯CSS背景');
+                    document.getElementById('particles-js').style.background = 
+                        'linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%)';
+                }
+            }
+            
+            // 初始化平滑滚动
+            initSmoothScroll();
+            
+            // 初始化移动端菜单
+            initMobileMenu();
+            
+            // 初始化功能侧边栏
+            initFeaturesSidebar();
         });
 
-        // 初始化粒子背景
-        document.addEventListener('DOMContentLoaded', function() {
-            particlesJS("particles-js", {
-                particles: {
-                    number: { value: 80, density: { enable: true, value_area: 1000 } },
-                    color: { value: ["#7a5fff", "#3cf4ff", "#ff00ff"] },
-                    shape: { type: "circle" },
-                    opacity: { value: 0.6, random: true },
-                    size: { value: 4, random: { enable: true, minimumValue: 2 } },
-                    line_linked: {
-                        enable: true,
-                        distance: 150,
-                        color: "#7a5fff",
-                        opacity: 0.3,
-                        width: 1.5
-                    },
-                    move: {
-                        enable: true,
-                        speed: 2,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false
-                    }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: { enable: true, mode: "repulse" },
-                        onclick: { enable: true, mode: "push" },
-                        resize: true
-                    }
-                },
-                retina_detect: true
-            });
-            
-            // 平滑滚动
+        // 初始化平滑滚动
+        function initSmoothScroll() {
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -1359,23 +1556,19 @@
                             top: targetElement.offsetTop - 80,
                             behavior: 'smooth'
                         });
-                        
-                        // 移动端关闭菜单
-                        if(window.innerWidth < 768) {
-                            navLinks.classList.remove('active');
-                            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                        }
                     }
                 });
             });
-            
-            // 移动端菜单切换
+        }
+
+        // 初始化移动端菜单
+        function initMobileMenu() {
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const navLinks = document.getElementById('navLinks');
             
-            if(mobileMenuBtn) {
+            if(mobileMenuBtn && navLinks) {
                 mobileMenuBtn.addEventListener('click', function(e) {
-                    e.stopPropagation(); // 防止事件冒泡
+                    e.stopPropagation();
                     navLinks.classList.toggle('active');
                     if(navLinks.classList.contains('active')) {
                         this.innerHTML = '<i class="fas fa-times"></i>';
@@ -1398,30 +1591,31 @@
                         setTimeout(() => navLinks.style.display = 'none', 300);
                     }
                 });
-            }
-            
-            // 响应式导航菜单
-            function updateNavForMobile() {
-                if(window.innerWidth < 768) {
-                    if(!navLinks.classList.contains('active')) {
-                        navLinks.style.display = 'none';
-                        navLinks.style.opacity = '0';
+                
+                // 响应式导航菜单
+                function updateNavForMobile() {
+                    if(window.innerWidth < 768) {
+                        if(!navLinks.classList.contains('active')) {
+                            navLinks.style.display = 'none';
+                            navLinks.style.opacity = '0';
+                        }
+                        mobileMenuBtn.style.display = 'block';
+                    } else {
+                        navLinks.style.display = 'flex';
+                        navLinks.style.opacity = '1';
+                        navLinks.classList.remove('active');
+                        mobileMenuBtn.style.display = 'none';
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                     }
-                    mobileMenuBtn.style.display = 'block';
-                } else {
-                    navLinks.style.display = 'flex';
-                    navLinks.style.opacity = '1';
-                    mobileMenuBtn.style.display = 'none';
-                    navLinks.classList.remove('active');
-                    if(mobileMenuBtn) mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                 }
+                
+                updateNavForMobile();
+                window.addEventListener('resize', updateNavForMobile);
             }
-            
-            // 初始检查和窗口调整
-            updateNavForMobile();
-            window.addEventListener('resize', updateNavForMobile);
-            
-            // 功能侧边栏功能
+        }
+
+        // 初始化功能侧边栏
+        function initFeaturesSidebar() {
             const openFeaturesBtns = document.querySelectorAll('.game-btn');
             const openSectionBtns = document.querySelectorAll('.section-btn');
             const closeSidebarBtn = document.getElementById('closeSidebar');
@@ -1430,9 +1624,6 @@
             const sidebarContent = document.getElementById('sidebarContent');
             const sidebarTitle = document.getElementById('sidebarTitle');
             const sidebarBackBtn = document.getElementById('sidebarBackBtn');
-            
-            // 记录当前激活的按钮
-            let activeButton = null;
             
             // 游戏数据
             const gameData = {
@@ -1623,7 +1814,7 @@
                         </div>
                     `
                 },
-                changelog: {
+                                changelog: {
                     title: "更新日志",
                     content: `
                         <div class="sidebar-content-section">
@@ -1661,8 +1852,7 @@
                         </div>
                     `
                 }
-            };
-            
+
             // 打开侧边栏并加载对应游戏内容
             openFeaturesBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -1670,14 +1860,6 @@
                     const gameInfo = gameData[game];
                     
                     if(gameInfo) {
-                        // 移除上一个激活按钮的状态
-                        if (activeButton) {
-                            activeButton.classList.remove('active');
-                        }
-                        // 设置当前按钮为激活状态
-                        this.classList.add('active');
-                        activeButton = this;
-                        
                         sidebarTitle.textContent = gameInfo.title;
                         sidebarContent.innerHTML = gameInfo.content;
                         openSidebar();
@@ -1692,14 +1874,6 @@
                     const sectionInfo = sectionData[section];
                     
                     if(sectionInfo) {
-                        // 移除上一个激活按钮的状态
-                        if (activeButton) {
-                            activeButton.classList.remove('active');
-                        }
-                        // 设置当前按钮为激活状态
-                        this.classList.add('active');
-                        activeButton = this;
-                        
                         sidebarTitle.textContent = sectionInfo.title;
                         sidebarContent.innerHTML = sectionInfo.content;
                         openSidebar();
@@ -1719,32 +1893,35 @@
                 featuresSidebar.classList.remove('active');
                 sidebarOverlay.classList.remove('active');
                 document.body.style.overflow = 'auto';
-                // 关闭侧边栏时，清除激活按钮的状态
-                if (activeButton) {
-                    activeButton.classList.remove('active');
-                    activeButton = null;
-                }
             }
             
             // 关闭侧边栏事件
-            closeSidebarBtn.addEventListener('click', closeSidebar);
-            sidebarOverlay.addEventListener('click', closeSidebar);
+            if(closeSidebarBtn) {
+                closeSidebarBtn.addEventListener('click', closeSidebar);
+            }
+            
+            if(sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', closeSidebar);
+            }
             
             // 返回主页面按钮事件
-            sidebarBackBtn.addEventListener('click', closeSidebar);
+            if(sidebarBackBtn) {
+                sidebarBackBtn.addEventListener('click', closeSidebar);
+            }
             
             // 按ESC键关闭侧边栏
-            document.addEventListener('
-            'keydown', function(e) {
-            if(e.key === 'Escape' && featuresSidebar.classList.contains('active')) {
+            document.addEventListener('keydown', function(e) {
+                if(e.key === 'Escape' && featuresSidebar.classList.contains('active')) {
                     closeSidebar();
                 }
             });
             
             // 侧边栏内点击链接不关闭侧边栏
-            featuresSidebar.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
+            if(featuresSidebar) {
+                featuresSidebar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
         });
     </script>
 </body>
