@@ -1917,13 +1917,14 @@
                 }
             });
             
-            // 侧边栏内点击链接不关闭侧边栏
+                        // 侧边栏内点击链接不关闭侧边栏
             if(featuresSidebar) {
                 featuresSidebar.addEventListener('click', function(e) {
                     e.stopPropagation();
                 });
             }
-        });
+        } // <-- 添加这行：闭合 initFeaturesSidebar 函数
+    }); // 这行闭合的是 document.addEventListener 的回调函数
     </script>
 </body>
 </html>
